@@ -7,7 +7,7 @@ import (
 type Client interface {
 	TransactionsNotifications(
 		ctx context.Context,
-		request *TransactionNotificationRequest,
+		request *JSONRPCRequest,
 		do func(notification *TransactionNotification),
 	) error
 }

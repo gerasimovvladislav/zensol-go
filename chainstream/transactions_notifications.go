@@ -7,7 +7,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"strings"
 	"time"
 
 	"nhooyr.io/websocket"
@@ -37,20 +36,6 @@ func (t *TransactionNotification) Owner() string {
 		return ""
 	}
 	return t.Params.Result.Value.Transaction.Message.AccountKeys[0]
-}
-
-func (t *TransactionNotification) InstructionType() string {
-	for _, log := range t.Params.Result.Value.Meta.LogMessages {
-		switch {
-		case strings.Contains(log, "Instruction: Buy"):
-			return "Buy"
-		case strings.Contains(log, "Instruction: Sell"):
-			return "Sell"
-		case log == "Program log: Create":
-			return "Create"
-		}
-	}
-	return ""
 }
 
 // TransactionNotificationParams contains subscription ID and payload.

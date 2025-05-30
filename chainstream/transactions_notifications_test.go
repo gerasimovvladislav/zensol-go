@@ -59,9 +59,9 @@ func TestInstructionTypeMethod(t *testing.T) {
 		jsonFile string
 		expected string
 	}{
-		{"Buy Instruction", "testdata/sample_tx_buy.json", "Buy"},
-		{"Sell Instruction", "testdata/sample_tx_sell.json", "Sell"},
-		{"Create Log", "testdata/sample_tx_create.json", "Create"},
+		{"Buy Instruction", "testdata/sample_tx_buy.json", "53CkQzZiYAqwSdYRUX546ekKkNsKQCu9KTu9duvGZnhF"},
+		{"Sell Instruction", "testdata/sample_tx_sell.json", "53CkQzZiYAqwSdYRUX546ekKkNsKQCu9KTu9duvGZnhF"},
+		{"Create Log", "testdata/sample_tx_create.json", "C6StTJpfK6nUcQzouAWZEvE1YLwxrgsTLsDAwHgXwQ8k"},
 	}
 
 	for _, tc := range tests {
@@ -76,8 +76,8 @@ func TestInstructionTypeMethod(t *testing.T) {
 				t.Fatalf("failed to unmarshal tx: %v", err)
 			}
 
-			if got := tx.InstructionType(); got != tc.expected {
-				t.Errorf("InstructionType() = %q, expected %q", got, tc.expected)
+			if got := tx.Owner(); got != tc.expected {
+				t.Errorf("Owner = %q, expected %q", got, tc.expected)
 			}
 		})
 	}
@@ -89,9 +89,9 @@ func TestTransactionNotificationParsing(t *testing.T) {
 		jsonFile string
 		expected string
 	}{
-		{"Buy Tx", "testdata/sample_tx_buy.json", "Buy"},
-		{"Sell Tx", "testdata/sample_tx_sell.json", "Sell"},
-		{"Create Tx", "testdata/sample_tx_create.json", "Create"},
+		{"Buy Instruction", "testdata/sample_tx_buy.json", "53CkQzZiYAqwSdYRUX546ekKkNsKQCu9KTu9duvGZnhF"},
+		{"Sell Instruction", "testdata/sample_tx_sell.json", "53CkQzZiYAqwSdYRUX546ekKkNsKQCu9KTu9duvGZnhF"},
+		{"Create Log", "testdata/sample_tx_create.json", "C6StTJpfK6nUcQzouAWZEvE1YLwxrgsTLsDAwHgXwQ8k"},
 	}
 
 	for _, tc := range tests {
@@ -106,12 +106,12 @@ func TestTransactionNotificationParsing(t *testing.T) {
 				t.Fatalf("failed to unmarshal tx: %v", err)
 			}
 
-			detected := tx.InstructionType()
+			detected := tx.Owner()
 
 			if detected != tc.expected {
 				t.Errorf("expected instruction %q, got %q", tc.expected, detected)
 			} else {
-				t.Logf("✅ Detected instruction: %s", detected)
+				t.Logf("✅ Detected owner: %s", detected)
 				t.Logf("🔑 Signature: %s", tx.Params.Result.Context.Signature)
 				t.Logf("🧱 Slot: %d", tx.Params.Result.Value.Slot)
 			}
